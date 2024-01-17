@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>jQuery WebGL Ripples</title>
+<style>
+* { margin: 0; padding: 0; }
+html {
+	height: 100%;
+}
+body {
+	color: #fff;
+	font-size: 16px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	background-image: url(img/r1.gif);
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 100%;
+	text-align: center;
+}
+
+
+main {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	padding-top: 77px;
+	
+}
+
+.left{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 20%;
+	padding: 250x 50px;
+}
+
+.right{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 20%;
+	padding: 250x 50px;
+}
+
+.center{
+	display: flex;
+	width: 55%;
+	min-width: 100px;
+	height: 500px;
+}
+
+h1 {
+	font-size: 32px;
+}
+h2 {
+	font-size: 18px;
+	margin-top: 6px;
+}
+p {
+	text-align: left;
+	margin-top: 20px;
+}
+a {
+	color: #ff6800;
+}
+
+img {
+	width: 90%;
+	height: 50%;
+}
+
+</style>
+</head>
+<body>
+
+<main>
+	<div class="left">
+		
+	</div>
+	<div class="center">
+		
+	</div>
+	<div class="right">
+		
+
+</main>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="dist/jquery.ripples.js"></script>
+<script>
+$(document).ready(function() {
+	try {
+		$('body').ripples({
+			resolution: 512,
+			dropRadius: 20, //px
+			perturbance: 0.1,
+		});
+		$('main').ripples({
+			resolution: 128,
+			dropRadius: 10, //px
+			perturbance: 0.1,
+			interactive: false
+		});
+	}
+	catch (e) {
+		$('.error').show().text(e);
+	}
+
+	$('.js-ripples-disable').on('click', function() {
+		$('body, main').ripples('destroy');
+		$(this).hide();
+	});
+
+	$('.js-ripples-play').on('click', function() {
+		$('body, main').ripples('play');
+	});
+
+	$('.js-ripples-pause').on('click', function() {
+		$('body, main').ripples('pause');
+	});
+
+	// Automatic drops
+	setInterval(function() {
+		var $el = $('main');
+		var x = Math.random() * $el.outerWidth();
+		var y = Math.random() * $el.outerHeight();
+		var dropRadius = 20;
+		var strength = 0.04 + Math.random() * 0.04;
+
+		$el.ripples('drop', x, y, dropRadius, strength);
+	}, 400);
+});
+</script>
+</body>
+</html>
